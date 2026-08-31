@@ -1,0 +1,28 @@
+﻿{
+    "creators":  [
+                     {
+                         "affiliation":  "Independent Researcher",
+                         "name":  "Yonezu, Ryutaro"
+                     }
+                 ],
+    "title":  "A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks - software and source package",
+    "version":  "v1.0.0",
+    "access_right":  "open",
+    "license":  "mit",
+    "upload_type":  "software",
+    "keywords":  [
+                     "anonymous dynamic networks",
+                     "binary consensus",
+                     "stabilization",
+                     "explicit termination",
+                     "local memory",
+                     "one-bit communication",
+                     "space complexity"
+                 ],
+    "related_identifiers":  [
+                                {
+                                    "identifier":  "10.5281/zenodo.22206514",
+                                    "relation":  "isSupplementTo"
+                                }
+                            ]
+}

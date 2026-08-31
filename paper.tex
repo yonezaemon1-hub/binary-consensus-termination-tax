@@ -1,0 +1,351 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,pdftitle={A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks},pdfauthor={Ryutaro Yonezu}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\title{\textbf{A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks}}
+\author{Ryutaro Yonezu\\\small Independent Researcher}
+\date{August 31, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study deterministic binary consensus in anonymous synchronous $1$-interval-connected dynamic networks under one-bit broadcast-counting communication. We distinguish \emph{stabilization}, where agents' output bits are eventually correct and remain unchanged, from \emph{explicit termination}, where every agent must enter a halting final state. Stabilization is size-oblivious: a two-state monotone flooding rule suffices, so one bit of local state is both necessary and sufficient. For explicit termination we prove a contrasting lower bound. On a static cycle, a split-input indistinguishability argument forces at least one homogeneous execution to run for $\Omega(n)$ rounds before halting. Because the homogeneous execution is a deterministic state trajectory with no free external round clock, any pre-termination state repetition would pump and imply an earlier halt. Hence $\Omega(n)$ distinct local states, or $\Omega(\log n)$ bits, are necessary. If $n$ is available as a non-uniform algorithm parameter, the bound is tight: flooding for $n-1$ rounds followed by halting uses $O(\log n)$ local memory and one-bit messages. Thus, in the known-size regime,
+\[
+M_{\mathrm{stab}}(n)=1,\qquad M_{\mathrm{term}}(n)=\Theta(\log n).
+\]
+We also record the standard size-oblivious obstruction showing why the known-size assumption is substantive. The claimed contribution is restricted to this tight local-space characterization; the underlying flooding, locality, and finite-state pumping techniques are standard.
+\end{abstract}
+
+\paragraph{Keywords.} anonymous dynamic networks; binary consensus; stabilization; explicit termination; local memory; one-bit communication; space complexity.
+
+\section{Introduction}
+Anonymous dynamic networks combine severe symmetry with adversarially changing communication. Recent work shows that substantial deterministic computation remains possible even when every agent broadcasts only one bit per round and observes only the number of neighbors broadcasting each bit value \cite{blanc2026onebit}. A separate and well-established distinction is that between \emph{stabilizing} computation, where outputs eventually become permanently correct, and \emph{terminating} computation, where processes must also detect completion and stop \cite{schmid2026topological}.
+
+This note isolates that distinction for binary consensus and asks a narrow space-complexity question: how much local state is required to turn eventual agreement into explicit halting?
+
+The answer is sharply different in the two regimes. Stabilization is almost trivial. Agents can compute the global AND by propagating zeroes monotonically. If at least one zero exists, connectivity forces the set of zero-holding agents to grow by at least one per round; if all inputs are one, no zero is ever created. No clock and no size estimate are required.
+
+Explicit termination is different. On a static cycle, an agent deep inside a long all-zero region cannot distinguish that region from a globally all-zero cycle until information from the boundary reaches it. The same holds for an all-one region. A split cycle therefore forces one homogeneous execution to delay halting for a linear number of rounds. In a time-independent deterministic finite-state machine, waiting that long requires a linear number of distinguishable states.
+
+The main result is therefore
+\[
+M_{\mathrm{stab}}(n)=1
+\]
+without knowledge of $n$, while in the known-$n$ regime
+\[
+M_{\mathrm{term}}(n)=\Theta(\log n).
+\]
+Throughout, \emph{explicit termination} means entry into a halting final state. We do not equate this with merely making an irrevocable decision while internal state continues evolving.
+
+\paragraph{Contributions.}
+\begin{enumerate}[leftmargin=1.5em]
+\item \textbf{Size-oblivious stabilization.} Binary consensus stabilizes with exactly one bit of local state and one-bit communication.
+\item \textbf{Termination lower bound.} For every $n\ge 4$, any deterministic explicitly terminating binary-consensus algorithm requires at least
+\[
+\left\lfloor\frac n4\right\rfloor+1
+\]
+distinct local states in the worst case.
+\item \textbf{Known-size tightness.} If $n$ may be compiled into the size-$n$ algorithm, explicit termination is achievable with $O(n)$ states and one-bit communication, yielding $\Theta(\log n)$ bits of local memory.
+\end{enumerate}
+We do not claim novelty for monotone flooding, light-cone indistinguishability, or finite-state pumping. The intended contribution is only the resulting local-space characterization for this narrow binary-consensus setting.
+
+\section{Model and definitions}
+\subsection{Dynamic network}
+The system consists of a fixed set $V$ of $|V|=n$ agents. Time proceeds in synchronous rounds $t=1,2,\ldots$. In every round an adversary chooses a simple undirected graph
+\[
+G_t=(V,E_t).
+\]
+The dynamic network is \emph{$1$-interval-connected} if every $G_t$ is connected. Static connected graphs are therefore special cases.
+
+Agents are anonymous, have no identifiers, and execute identical deterministic transition rules. There is no distinguished leader. Each agent $v$ has an initial binary input $x_v\in\{0,1\}$.
+
+\subsection{One-bit broadcast-counting communication}
+In every round each agent broadcasts one bit to all current neighbors. It does not learn neighbor identities. Its communication observation is only the pair $(c_0,c_1)$, where $c_b$ is the number of neighbors that broadcast $b$. This is the communication model introduced in \cite{blanc2026onebit}.
+
+\subsection{Local states and local space}
+For fixed $n$, let $A_n$ be a deterministic algorithm with local state set $Q_n$. The broadcast bit is determined by
+\[
+\sigma_n:Q_n\to\{0,1\},
+\]
+and the next-state transition by
+\[
+\delta_n:Q_n\times\mathbb N\times\mathbb N\to Q_n.
+\]
+The output bit is $\operatorname{out}_n:Q_n\to\{0,1\}$. The initial state may depend on the input bit and, in the known-size non-uniform regime, on the common parameter $n$ through the choice of $A_n$.
+
+There is \emph{no free external round clock}: neither $\sigma_n$ nor $\delta_n$ receives the current round number as an argument. If an agent must distinguish elapsed times, that distinction must be represented in local state.
+
+We measure local space as
+\[
+M(A_n)=\left\lceil\log_2|Q_n|\right\rceil,
+\]
+with the output register included in the local state. We do not charge the description size of the transition table. Thus, when $n$ is known, it may be compiled non-uniformly into $A_n$ without being counted as working memory. This deliberately generous convention makes the lower bound stronger.
+
+\subsection{Stabilization and explicit termination}
+An execution solves \emph{stabilizing binary consensus} if there exists a finite $T$ such that all outputs agree for all $t\ge T$, those outputs never change afterward, and unanimity validity holds: if all inputs equal $b$, the stabilized output is $b$. Agents need not enter final states.
+
+For explicit termination, let $F_n\subseteq Q_n$ be the set of final states. A final state is halting: once an agent enters $F_n$, its state and output never change. An execution solves \emph{explicitly terminating binary consensus} if every agent eventually reaches a final state, all final outputs agree, and unanimity validity holds. The lower bound uses only unanimity validity and therefore applies under stronger usual validity conditions as well.
+
+\section{Constant-state stabilization}
+\begin{proposition}
+Binary consensus can be stabilized with exactly one bit of local state, without knowledge of $n$.
+\end{proposition}
+\begin{proof}
+Each agent maintains a single bit $z_v\in\{0,1\}$, initially $z_v(0)=x_v$. In every round it broadcasts $z_v$ and updates according to
+\[
+z_v(t+1)=z_v(t)\wedge\bigwedge_{u\in N_v(t+1)}z_u(t).
+\]
+Equivalently, an agent switches to $0$ if it already has $0$ or hears at least one $0$, and never switches back.
+
+Let $S_t=\{v:z_v(t)=0\}$. Then $S_t\subseteq S_{t+1}$. If $\varnothing\neq S_t\neq V$, connectivity of the next communication graph guarantees an edge crossing $(S_t,V\setminus S_t)$, so at least one new agent hears a $0$ and joins $S_{t+1}$. Hence if any input is $0$, all agents hold $0$ after at most $n-1$ rounds. If all inputs are $1$, no $0$ is ever generated. Thus the output stabilizes to the global AND.
+
+The algorithm has two states and uses one bit. Conversely, unanimous $0$ and unanimous $1$ executions must eventually have different outputs, so at least two distinguishable states are necessary. Therefore
+\[
+\boxed{M_{\mathrm{stab}}(n)=1.}
+\]
+\end{proof}
+
+\begin{remark}
+The convergence time is at most $n-1$ rounds, but agents never need to know that this time has elapsed. This is precisely what changes under explicit termination.
+\end{remark}
+
+\section{Locality on a static cycle}
+Let $C_n$ be the cycle on $n$ vertices, and consider the admissible topology sequence $G_t=C_n$ for every $t$.
+
+\begin{lemma}[Radius-$t$ locality]
+After $t$ rounds on $C_n$, the state of an agent $v$ is determined entirely by initial states within graph distance at most $t$ from $v$.
+\end{lemma}
+\begin{proof}
+By induction. At time $0$, $v$ depends only on its own initial state. If the claim holds after $t$ rounds, then during round $t+1$ the new state of $v$ depends only on its previous state and messages sent by its two neighbors. Each neighbor's previous state depends only on initial information within distance $t$ of that neighbor, whose union lies within distance $t+1$ of $v$.
+\end{proof}
+The lemma is ordinary synchronous one-hop causality; the one-bit restriction is not used.
+
+\section{Homogeneous cycle executions}
+For $b\in\{0,1\}$, let $E_b$ be the execution on static $C_n$ in which every input is $b$. All agents begin in the same input-dependent state, have degree two, receive identical observations, and execute the same deterministic rule. Hence all agents share the same state at every round. Write this common trajectory as
+\[
+q_0^{(b)},q_1^{(b)},q_2^{(b)},\ldots.
+\]
+If the algorithm explicitly terminates, define the first final-state time
+\[
+\tau_b=\min\{t:q_t^{(b)}\in F_n\}.
+\]
+By unanimity validity,
+\[
+\operatorname{out}(q_{\tau_0}^{(0)})=0,\qquad
+\operatorname{out}(q_{\tau_1}^{(1)})=1.
+\]
+
+\section{A linear termination-time lower bound}
+\begin{lemma}
+For every deterministic explicitly terminating binary-consensus algorithm and every $n\ge4$,
+\[
+\boxed{\max\{\tau_0,\tau_1\}\ge\left\lfloor\frac n4\right\rfloor.}
+\]
+\end{lemma}
+\begin{proof}
+Set $r=\lfloor n/4\rfloor$. Construct a static execution on $C_n$ whose input assignment consists of one contiguous block of $\lfloor n/2\rfloor$ zeroes and one contiguous block of the remaining ones.
+
+In either block one can choose a central vertex whose distance from every vertex carrying the opposite input is at least $r$. Indeed, for the shorter block of length $L=\lfloor n/2\rfloor$, the largest distance of a block vertex from the complement is
+\[
+\left\lceil\frac L2\right\rceil
+=\left\lceil\frac{\lfloor n/2\rfloor}{2}\right\rceil
+\ge\left\lfloor\frac n4\right\rfloor.
+\]
+Choose a zero-vertex $u$ and a one-vertex $v$ such that all vertices within distance strictly less than $r$ of $u$ have input $0$, and all vertices within distance strictly less than $r$ of $v$ have input $1$.
+
+Assume for contradiction that $\tau_0<r$ and $\tau_1<r$. By radius-$t$ locality, the complete local history of $u$ through round $\tau_0$ is identical to the history of an agent in the homogeneous all-zero execution. Hence $u$ enters $q_{\tau_0}^{(0)}\in F_n$ and halts with output $0$. Similarly, $v$ enters $q_{\tau_1}^{(1)}\in F_n$ and halts with output $1$. Final outputs cannot later change, so Agreement is violated. Therefore at least one homogeneous execution satisfies the stated lower bound.
+\end{proof}
+
+\section{Turning waiting time into local memory}
+\begin{lemma}[No pre-termination state repetition]
+For either homogeneous execution $E_b$, the states
+\[
+q_0^{(b)},q_1^{(b)},\ldots,q_{\tau_b}^{(b)}
+\]
+are pairwise distinct.
+\end{lemma}
+\begin{proof}
+Fix $b$. On a homogeneous static cycle, if the common state is $q$, all agents broadcast the same bit and every agent receives two copies of that bit. Thus the homogeneous evolution is governed by a deterministic unary map $f_n$ along its nonfinal trajectory:
+\[
+q_{t+1}^{(b)}=f_n(q_t^{(b)}).
+\]
+Suppose $q_i^{(b)}=q_j^{(b)}$ for $0\le i<j<\tau_b$. Determinism implies $q_{i+k}^{(b)}=q_{j+k}^{(b)}$. Taking $k=\tau_b-j$ yields
+\[
+q_{i+\tau_b-j}^{(b)}=q_{\tau_b}^{(b)}.
+\]
+The right-hand side is final, but
+\[
+i+\tau_b-j=\tau_b-(j-i)<\tau_b,
+\]
+contradicting the definition of $\tau_b$ as the first final-state time. Finally, $q_{\tau_b}^{(b)}$ cannot equal any earlier state because finality is a property of the state itself. Hence all states through the first final state are distinct.
+\end{proof}
+
+\section{Termination-memory lower bound}
+\begin{theorem}
+For every $n\ge4$, every deterministic explicitly terminating binary-consensus algorithm in the model satisfies
+\[
+|Q_n|\ge\left\lfloor\frac n4\right\rfloor+1.
+\]
+Consequently,
+\[
+\boxed{M_{\mathrm{term}}(n)=\Omega(\log n).}
+\]
+\end{theorem}
+\begin{proof}
+The preceding split-cycle lemma gives a bit $b$ with $\tau_b\ge\lfloor n/4\rfloor$. The no-repetition lemma then gives $\tau_b+1$ distinct local states. Hence
+\[
+|Q_n|\ge\tau_b+1\ge\left\lfloor\frac n4\right\rfloor+1,
+\]
+and therefore
+\[
+M_{\mathrm{term}}(n)
+\ge
+\left\lceil\log_2\left(\left\lfloor\frac n4\right\rfloor+1\right)\right\rceil
+=\Omega(\log n).
+\]
+\end{proof}
+
+\begin{remark}
+The lower bound remains valid even if $n$ is fully available when designing $A_n$. It does not charge the algorithm for storing a binary representation of $n$; instead, it proves that a homogeneous execution must pass through a linear number of distinct local states.
+\end{remark}
+
+\begin{remark}
+The proof does not use the one-bit communication restriction. Arbitrarily large messages cannot transmit information across the static cycle faster than one edge per synchronous round.
+\end{remark}
+
+\section{Matching upper bound when $n$ is known}
+\begin{proposition}
+If $n$ may be compiled into $A_n$, explicitly terminating binary consensus is solvable using one-bit communication and $O(\log n)$ bits of local state.
+\end{proposition}
+\begin{proof}
+Each agent stores a candidate bit $z_v$, initially $x_v$, and a phase $r_v\in\{0,1,\ldots,n-1\}$. For $n-1$ rounds, agents execute the same monotone AND flooding rule as before and increment the phase once per round. After the $n-1$st propagation round, every agent enters a final state whose output is its current candidate.
+
+If all inputs are $1$, every candidate remains $1$. If any input is $0$, the expanding-set argument shows that after at most $n-1$ rounds every agent's candidate is $0$. Agreement, validity, and termination follow. The number of local states is $O(n)$, so the memory cost is $O(\log n)$ bits.
+\end{proof}
+
+Combining the lower and upper bounds gives the main quantitative result.
+
+\begin{theorem}[Known-size termination tax]
+In the known-size non-uniform regime,
+\[
+\boxed{M_{\mathrm{term}}(n)=\Theta(\log n).}
+\]
+Together with constant-state stabilization,
+\[
+\boxed{M_{\mathrm{stab}}(n)=1,\qquad M_{\mathrm{term}}(n)=\Theta(\log n).}
+\]
+Thus explicit halting incurs a logarithmic local-memory tax relative to stabilization.
+\end{theorem}
+
+\section{Why unknown size is different}
+The known-$n$ assumption in the matching upper bound is substantive. The following standard indistinguishability consequence is included only to make the model boundary explicit; it is not claimed as a novel general impossibility principle.
+
+\begin{proposition}
+No single deterministic size-oblivious algorithm can solve explicitly terminating binary consensus on all anonymous static cycles, even with arbitrarily large local memory.
+\end{proposition}
+\begin{proof}
+Suppose a uniform algorithm $A$, independent of $n$, solves the task on every cycle size. On a homogeneous all-zero static cycle, every node has degree two, begins in the same zero-dependent state, and receives the same observations in every round. Because neither transition rule nor initial state depends on $n$, the homogeneous local trajectory is identical for all cycle sizes. Hence it terminates after a size-independent finite time $\tau_0$. Likewise, the all-one homogeneous trajectory terminates after a size-independent $\tau_1$.
+
+Choose $N>4\max\{\tau_0,\tau_1\}$ and assign one contiguous half of $C_N$ input $0$ and the other half input $1$. A node deep in the zero-block has the same local history through $\tau_0$ as in the homogeneous all-zero execution and therefore halts with output $0$. A node deep in the one-block analogously halts with output $1$. Agreement is violated.
+\end{proof}
+
+The resulting three regimes are
+\[
+\begin{array}{ll}
+\text{stabilization:} & \text{size-oblivious, one bit of local state},\\[3pt]
+\text{explicit termination, unknown size:} & \text{impossible for a uniform size-oblivious algorithm},\\[3pt]
+\text{explicit termination, known size:} & \Theta(\log n)\text{ local memory}.
+\end{array}
+\]
+Only the final quantitative characterization is presented as the principal local-space result.
+
+\section{Relation to prior work}
+Blanc, Di Luna, and Viglietta \cite{blanc2026onebit} initiate the systematic study of deterministic computation in anonymous dynamic networks under one-bit broadcast communication. Their model is the closest communication setting to the present note. They show that rich global computation remains possible despite the one-bit restriction, with terminating computation under suitable size information and stabilizing computation without prior knowledge of $n$. The present note does not attempt to improve their general computation machinery; it isolates binary consensus and asks for the local-memory cost of explicit halting.
+
+Parzych and Daymude \cite{parzych2024broadcast} establish local-memory lower bounds for anonymous dynamic broadcast. In particular, broadcast with termination detection requires $\Omega(\log n)$ memory per node in their setting. Broadcast, however, requires dissemination of a designated source's information, whereas binary consensus permits freedom on mixed inputs. We therefore use a direct split-cycle argument rather than a reduction from broadcast.
+
+Kowalski and Mosteiro \cite{kowalski2026alltoall} study All-to-all Communication in anonymous adversarial dynamic networks with logarithmically bounded communication and memory. Their task requires recovery of all input messages together with multiplicities and is information-theoretically stronger than binary consensus; their logarithmic-memory results do not directly characterize the present task.
+
+Schmid, Felber, and Rincon Galeana \cite{schmid2026topological} give a broad topological characterization of stabilizing consensus and demonstrate that the distinction between stabilization and terminating consensus is fundamental and already well established. No novelty is claimed here for that distinction itself.
+
+Di Luna and Viglietta develop general computation in anonymous dynamic networks using history trees \cite{diluna2022linear}, and subsequent work studies universal finite-state and self-stabilizing computation without network-size knowledge \cite{diluna2026finite}. These results further emphasize that stabilization and explicit termination behave differently in anonymous networks. The present note is restricted to the binary-consensus local-space characterization above.
+
+A targeted prior-art search found no direct statement of the resulting one-bit-versus-$\Theta(\log n)$ local-memory separation for binary consensus. This is a screening statement, not a certification of novelty.
+
+\section{Claim boundary and limitations}
+The paper does \emph{not} claim novelty for monotone flooding, the one-hop-per-round locality principle, split-cycle indistinguishability, pumping arguments for deterministic finite-state trajectories, the general distinction between stabilization and termination, logarithmic-memory lower bounds for broadcast, or general impossibility phenomena caused by anonymity and unknown network size.
+
+The claimed mathematical result is restricted to the following characterization. In deterministic anonymous synchronous leaderless $1$-interval-connected dynamic networks with time-independent local transitions,
+\[
+M_{\mathrm{stab}}(n)=1
+\]
+for binary-consensus stabilization, while in the known-$n$ regime,
+\[
+M_{\mathrm{term}}(n)=\Theta(\log n)
+\]
+for binary consensus with explicit halting.
+
+The unknown-size impossibility is included only to explain why the known-size assumption in the matching terminating upper bound cannot simply be omitted. Randomized algorithms, identifiers, leaders, free external clocks, weaker connectivity assumptions, and asynchronous communication are outside the scope of this note.
+
+\section{Conclusion}
+A single bit is sufficient for anonymous binary consensus to become permanently correct. Knowing that the computation is complete is more expensive.
+
+A static-cycle indistinguishability argument forces at least one homogeneous execution of any explicitly terminating algorithm to wait for a linear number of rounds. In the absence of a free round counter, deterministic agents must encode those distinguishable stages in local state, yielding an $\Omega(\log n)$ lower bound. When $n$ is known, a matching $O(\log n)$ counter is sufficient. Therefore
+\[
+\boxed{M_{\mathrm{stab}}(n)=1,\qquad M_{\mathrm{term}}(n)=\Theta(\log n).}
+\]
+This provides a compact example of a broader phenomenon: propagating a correct value can require almost no persistent information, while certifying that enough time has elapsed to halt can require asymptotically more memory.
+
+\begin{thebibliography}{9}
+\bibitem{blanc2026onebit}
+T. Blanc, G. A. Di Luna, and G. Viglietta,
+``Computing in Anonymous Dynamic Networks with One-Bit Communications,''
+\emph{arXiv preprint arXiv:2607.08358v2}, 2026.
+
+\bibitem{parzych2024broadcast}
+G. Parzych and J. J. Daymude,
+``Memory Lower Bounds and Impossibility Results for Anonymous Dynamic Broadcast,''
+in \emph{38th International Symposium on Distributed Computing (DISC 2024)},
+LIPIcs 319, Art. 35, 2024.
+\href{https://doi.org/10.4230/LIPIcs.DISC.2024.35}{doi:10.4230/LIPIcs.DISC.2024.35}.
+
+\bibitem{kowalski2026alltoall}
+D. R. Kowalski and M. A. Mosteiro,
+``Anonymous adversarial dynamic networks with logarithmic memory and communication,''
+\emph{Theoretical Computer Science}, vol. 1066, Art. 115740, 2026.
+\href{https://doi.org/10.1016/j.tcs.2025.115740}{doi:10.1016/j.tcs.2025.115740}.
+
+\bibitem{schmid2026topological}
+U. Schmid, S. Felber, and H. Rincon Galeana,
+``A topological characterization of stabilizing consensus,''
+\emph{Distributed Computing}, vol. 39, Art. 17, 2026.
+\href{https://doi.org/10.1007/s00446-026-00508-z}{doi:10.1007/s00446-026-00508-z}.
+
+\bibitem{diluna2026finite}
+G. A. Di Luna and G. Viglietta,
+``Universal finite-state and self-stabilizing computation in anonymous dynamic networks,''
+\emph{Theoretical Computer Science}, Art. 116187, 2026, forthcoming issue.
+\href{https://doi.org/10.1016/j.tcs.2026.116187}{doi:10.1016/j.tcs.2026.116187}.
+
+\bibitem{diluna2022linear}
+G. A. Di Luna and G. Viglietta,
+``Computing in Anonymous Dynamic Networks Is Linear,''
+in \emph{2022 IEEE 63rd Annual Symposium on Foundations of Computer Science (FOCS)},
+pp. 1122--1133, 2022.
+\href{https://doi.org/10.1109/FOCS54457.2022.00108}{doi:10.1109/FOCS54457.2022.00108}.
+\end{thebibliography}
+
+\end{document}

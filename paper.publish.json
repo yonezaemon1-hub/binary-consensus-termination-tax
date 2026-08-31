@@ -1,0 +1,19 @@
+{
+  "github_owner": "yonezaemon1-hub",
+  "repo_name": "binary-consensus-termination-tax",
+  "repo_description": "Proof and publication materials for a logarithmic local-memory termination tax in anonymous dynamic binary consensus.",
+  "version": "v1.0.0",
+  "publication_date": "2026-08-31",
+  "title": "A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks",
+  "pdf_file": "Yonezu_2026_Binary_Consensus_Termination_Tax.pdf",
+  "abstract": "We study deterministic binary consensus in anonymous synchronous 1-interval-connected dynamic networks under one-bit broadcast-counting communication. Stabilizing binary consensus is achievable with one bit of local state without knowledge of the network size. For explicit termination, a split-cycle indistinguishability argument and a finite-state pumping argument imply an Omega(log n) local-memory lower bound. If n is known as a non-uniform algorithm parameter, the lower bound is tight: flooding for n-1 rounds followed by halting uses O(log n) local memory. Thus, in the known-size regime, explicit termination incurs a tight logarithmic local-memory tax relative to stabilization.",
+  "keywords": [
+    "anonymous dynamic networks",
+    "binary consensus",
+    "stabilization",
+    "explicit termination",
+    "local memory",
+    "one-bit communication",
+    "space complexity"
+  ]
+}
