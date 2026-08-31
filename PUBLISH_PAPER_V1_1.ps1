@@ -1,4 +1,4 @@
-param(
+﻿param(
     [switch]$Publish
 )
 
@@ -214,9 +214,9 @@ preferred-citation:
     if ($LASTEXITCODE -ne 0) { throw "git archive failed." }
 
     Log "Uploading PDF to Zenodo preprint draft"
-    Upload-File $state.preprint_bucket $pdfPath $token "application/pdf"
+    Upload-File $state.preprint_bucket $pdfPath $token "application/octet-stream"
     Log "Uploading tagged source ZIP to Zenodo software draft"
-    Upload-File $state.software_bucket $zipPath $token "application/zip"
+    Upload-File $state.software_bucket $zipPath $token "application/octet-stream"
 
     Set-Prop $state "repo_url" $repoUrl
     Set-Prop $state "release_url" $releaseUrl
@@ -266,3 +266,4 @@ preferred-citation:
 finally {
     Remove-Variable token -ErrorAction SilentlyContinue
 }
+
