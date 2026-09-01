@@ -1,16 +1,14 @@
-﻿cff-version: 1.2.0
+cff-version: 1.2.0
 message: "If you use this source package, please cite the associated preprint."
-title: "A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks - software and source package"
-version: "v1.0.0"
-doi: "10.5281/zenodo.22206519"
+title: "Internal Time as Local Memory: Explicit Termination in Anonymous Dynamic Binary Consensus - software and source package"
+version: "v2.0.0"
 authors:
   - family-names: "Yonezu"
     given-names: "Ryutaro"
 preferred-citation:
   type: article
-  title: "A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks"
+  title: "Internal Time as Local Memory: Explicit Termination in Anonymous Dynamic Binary Consensus"
   authors:
     - family-names: "Yonezu"
       given-names: "Ryutaro"
   year: 2026
-  doi: "10.5281/zenodo.22206514"
