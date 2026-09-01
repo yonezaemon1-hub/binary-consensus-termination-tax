@@ -2,13 +2,13 @@
 
 **Author:** Ryutaro Yonezu  
 **Affiliation:** Independent Researcher  
-**Version:** v2.0.0
+**Version:** v2.0.0 (staging)
 
-**Zenodo status:** v2 record pending publication.  
+**Status:** v2 metadata is staged on `main`; the final integrated PDF/TeX and Zenodo v2 DOI are pending publication.  
 Previous preprint version (v1.0.0): https://doi.org/10.5281/zenodo.22206514  
 Previous software version (v1.0.0): https://doi.org/10.5281/zenodo.22206519
 
-## Main results
+## v2 main results
 
 In deterministic anonymous synchronous 1-interval-connected dynamic networks under one-bit broadcast-counting communication:
 
@@ -19,12 +19,7 @@ In deterministic anonymous synchronous 1-interval-connected dynamic networks und
 
 The comparison isolates the logarithmic cost of representing elapsed-time evidence internally rather than the consensus value itself.
 
-## Paper files
-
-- `Yonezu_2026_Internal_Time_Local_Memory.pdf` — current integrated manuscript
-- `paper.tex` — LaTeX source for the current manuscript
-
-The original v1.0.0 release remains available through Git history and the v1.0.0 tag.
+The original v1.0.0 release remains preserved through Git history and the v1.0.0 tag.
 
 ## Licenses
 
