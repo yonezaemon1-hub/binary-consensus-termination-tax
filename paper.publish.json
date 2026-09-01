@@ -1,19 +1,21 @@
 {
   "github_owner": "yonezaemon1-hub",
   "repo_name": "binary-consensus-termination-tax",
-  "repo_description": "Proof and publication materials for a logarithmic local-memory termination tax in anonymous dynamic binary consensus.",
-  "version": "v1.0.0",
-  "publication_date": "2026-08-31",
-  "title": "A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks",
-  "pdf_file": "Yonezu_2026_Binary_Consensus_Termination_Tax.pdf",
-  "abstract": "We study deterministic binary consensus in anonymous synchronous 1-interval-connected dynamic networks under one-bit broadcast-counting communication. Stabilizing binary consensus is achievable with one bit of local state without knowledge of the network size. For explicit termination, a split-cycle indistinguishability argument and a finite-state pumping argument imply an Omega(log n) local-memory lower bound. If n is known as a non-uniform algorithm parameter, the lower bound is tight: flooding for n-1 rounds followed by halting uses O(log n) local memory. Thus, in the known-size regime, explicit termination incurs a tight logarithmic local-memory tax relative to stabilization.",
+  "repo_description": "Proof and publication materials for local-memory costs of explicit termination in anonymous dynamic binary consensus.",
+  "version": "v2.0.0",
+  "publication_date": "2026-09-01",
+  "title": "Internal Time as Local Memory: Explicit Termination in Anonymous Dynamic Binary Consensus",
+  "pdf_file": "Yonezu_2026_Internal_Time_Local_Memory.pdf",
+  "abstract": "We study deterministic binary consensus in anonymous synchronous 1-interval-connected dynamic networks under one-bit broadcast-counting communication. The paper compares three ways of certifying that enough information-propagation time has elapsed. Stabilization is size-oblivious and needs exactly one bit of persistent local state. In the clockless model, explicit termination has logarithmic local-memory cost: if the network size n is known non-uniformly, then M_term^size(n)=Theta(log n); if n is unknown but a common temporal dissemination bound (dynamic diameter) D is known non-uniformly, then M_term^diam(D)=Theta(log(D+1)). Both lower bounds follow from a common split-cycle indistinguishability plus finite-state pumping argument, and matching upper bounds use one-bit flooding plus an internal counter. If the global round number is supplied for free as an external input, known-D explicit termination uses only constant persistent memory. Thus the logarithmic termination memory represents elapsed-time evidence rather than the consensus value itself. The claimed contribution is restricted to these local-space characterizations and their comparison; flooding, locality, dynamic-diameter notions, and finite-state pumping are standard.",
   "keywords": [
     "anonymous dynamic networks",
     "binary consensus",
-    "stabilization",
     "explicit termination",
+    "stabilization",
+    "dynamic diameter",
     "local memory",
     "one-bit communication",
-    "space complexity"
+    "finite-state computation",
+    "round clock"
   ]
 }
