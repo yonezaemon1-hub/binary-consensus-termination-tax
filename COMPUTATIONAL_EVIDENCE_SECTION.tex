@@ -1,0 +1,19 @@
+\section{Computational evidence}\label{sec:computational-evidence}
+
+The proofs above are analytic.  As an independent finite-parameter audit, the accompanying standard-library script \texttt{audit/computational\_evidence.py} evaluates the stated clockless and periodic-phase bounds on a grid of small and moderate parameter values.  The computation is not used as proof; its purpose is to expose boundary behavior, monotonicity in the free phase period $P$, and possible off-by-one errors in the displayed formulas.
+
+For example, Table~\ref{tab:state-phase-audit} shows representative known-$D$ values from the periodic-phase theorem family.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{c|ccccc}
+$D=8$ & $P=1$ & $P=2$ & $P=4$ & $P=8$ & $P=16$ \\
+\hline
+lower states & 5 & 3 & 3 & 3 & 3 \\
+upper states & 10 & 6 & 4 & 3 & 3
+\end{tabular}
+\caption{Finite arithmetic audit of the published state--phase bounds for $D=8$.  Increasing the externally supplied period reduces the persistent-state requirement, and the constructive upper bound reaches three states at $P=D$.}
+\label{tab:state-phase-audit}
+\end{table}
+
+The script also exports CSV tables for the clockless known-size/known-diameter bounds and for the periodic-phase known-size/known-diameter bounds.  These finite computations support reproducibility and presentation only; the universal claims remain those proved in the corresponding theorem statements.
