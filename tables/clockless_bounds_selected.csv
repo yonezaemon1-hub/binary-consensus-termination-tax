@@ -1,0 +1,13 @@
+regime,parameter,lower_states,upper_states,lower_bits,upper_bits
+known_D,1,2,4,1,2
+known_D,2,2,6,1,3
+known_D,4,3,10,2,4
+known_D,8,5,18,3,5
+known_D,16,9,34,4,6
+known_D,32,17,66,5,7
+known_D,64,33,130,6,8
+known_n,4,2,8,1,3
+known_n,8,3,16,2,4
+known_n,16,5,32,3,5
+known_n,32,9,64,4,6
+known_n,64,17,128,5,7
