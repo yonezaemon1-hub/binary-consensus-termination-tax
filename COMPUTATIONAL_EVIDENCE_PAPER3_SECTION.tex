@@ -1,0 +1,19 @@
+\section{Computational evidence}\label{sec:computational-evidence}
+
+The clockless lower and upper bounds are proved analytically.  A separate finite arithmetic audit, shared in \texttt{audit/computational\_evidence.py}, evaluates the published formulas on a grid of network sizes and dynamic-diameter values and converts the resulting state counts to bit counts.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{c|r|r|r}
+regime & parameter & lower states & upper states \\
+\hline
+known $D$ & 8 & 5 & 18 \\
+known $D$ & 16 & 9 & 34 \\
+known $n$ & 16 & 5 & 32 \\
+known $n$ & 32 & 9 & 64
+\end{tabular}
+\caption{Representative finite evaluations of the clockless termination bounds.  The state counts grow linearly in the relevant propagation parameter, corresponding to logarithmic persistent memory in bits.}
+\label{tab:clockless-finite-audit}
+\end{table}
+
+The audit is intended to make finite constants and off-by-one behavior inspectable.  It does not strengthen the proven asymptotic bounds and is not used as a substitute for the split-cycle and pumping arguments.
