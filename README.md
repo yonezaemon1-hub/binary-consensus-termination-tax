@@ -4,9 +4,12 @@
 **Affiliation:** Independent Researcher  
 **Version:** v2.0.0
 
-**Status:** the integrated v2 manuscript is now on `main`; the Zenodo v2 DOI is pending publication.  
-Previous preprint version (v1.0.0): https://doi.org/10.5281/zenodo.22206514  
-Previous software version (v1.0.0): https://doi.org/10.5281/zenodo.22206519
+**Status:** the integrated v2 manuscript is now on `main`. This repository family also contains two publication-sequence records that must remain distinct.  
+
+- **No.3:** *A Logarithmic Local-Memory Tax for Explicitly Terminating Binary Consensus in Anonymous Dynamic Networks* — Paper DOI `10.5281/zenodo.22206514`; Software DOI `10.5281/zenodo.22206519`.  
+- **No.4:** *Internal Time as Local Memory: State–Phase Tradeoffs for Explicit Termination in Anonymous Dynamic Binary Consensus* — Paper DOI `10.5281/zenodo.22228873`; Software DOI `10.5281/zenodo.22229981`.  
+
+The current integrated manuscript title is *Internal Time as Local Memory: Explicit Termination in Anonymous Dynamic Binary Consensus*; it does not replace the stored publication-sequence title of No.4.
 
 ## v2 main results
 
