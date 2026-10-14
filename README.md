@@ -37,3 +37,7 @@ The original v1.0.0 release remains preserved through Git history and the v1.0.0
 ## Claim boundary
 
 Flooding, locality, dynamic-diameter notions, finite-state pumping, and the general distinction between stabilization and termination are not claimed as new. The mathematical claim is restricted to the stated binary-consensus local-space characterizations and their comparison. Targeted prior-art screening is not a certification of novelty.
+
+## Research inquiries
+
+For questions about this research, reproduction, or collaboration, contact Yonezu Research Lab: [yonezaemon1+research@gmail.com](mailto:yonezaemon1+research@gmail.com).
